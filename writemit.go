@@ -1,13 +1,7 @@
 package license
 
-import (
-	"fmt"
-	"io"
-	"strings"
-)
-
-const (
-	body = `Copyright (c) YEAR NAME
+var (
+	mitText = `Copyright (c) YEAR NAME
 
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -33,17 +27,3 @@ THE SOFTWARE.
 
 `
 )
-
-func writeMIT(info *Info, out io.Writer) error {
-	// Replace the NAME
-	content := strings.Replace(body, "NAME", info.Name, -1)
-
-	// Replace the YEAR
-	content = strings.Replace(content, "YEAR", fmt.Sprintf("%d", info.Year), -1)
-
-	// Write the content to the Writer
-	_, err := out.Write([]byte(content))
-
-	// strings.
-	return err
-} //writeMIT

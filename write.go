@@ -19,9 +19,16 @@ func Write(lic Type, info *Info, out io.Writer) error {
 	// Check which license we're writing
 	switch lic {
 	case MIT:
-		// Write the MIT license
-		return writeMIT(info, out)
+		write(mitText, info, out)
 	} //switch
 
 	return errors.New("write license error: invalid type")
 } //Write
+
+func write(license string, info *Info, out io.Writer) error {
+	// Write the license to the Writer
+	_, err := out.Write([]byte(info.replace(license)))
+
+	// Return any error found
+	return err
+} //write
