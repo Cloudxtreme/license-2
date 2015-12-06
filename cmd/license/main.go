@@ -3,8 +3,11 @@ package main
 import (
 	"flag"
 	"fmt"
+	"os"
 	"os/user"
 	"time"
+
+	"github.com/antizealot1337/license"
 )
 
 var (
@@ -37,10 +40,33 @@ func main() {
 	// Create the flag for the license
 	lic := flag.String("license", defaultLicense, "The license")
 
+	var licType license.Type
+	var info *license.Info
+
 	switch *lic {
 	case "MIT", "mit":
-		fmt.Printf("Writing MIT license file for %s (c) %d\n", *name, *year)
+		// Create the info
+		info = license.NewInfo(*name, *year)
+
+		// Set the license type
+		licType = license.MIT
 	default:
 		fmt.Printf("\"%s\" is not a valid license type.\n", *lic)
+		os.Exit(-1)
 	} //switch
+
+	// Create the file
+	file, err := os.Create("LICENSE")
+
+	// Check if there was an error
+	if err != nil {
+		fmt.Println(err.Error())
+		os.Exit(-1)
+	} //if
+
+	// Make sure the file is closed
+	defer file.Close()
+
+	// Write the license
+	license.Write(licType, info, file)
 } //main
