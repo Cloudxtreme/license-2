@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 	"os/user"
+	"strings"
 	"time"
 
 	"github.com/antizealot1337/license"
@@ -40,20 +41,25 @@ func main() {
 	// Create the flag for the license
 	lic := flag.String("license", defaultLicense, "The license")
 
+	// Parse the flags
+	flag.Parse()
+
 	var licType license.Type
-	var info *license.Info
 
-	switch *lic {
-	case "MIT", "mit":
-		// Create the info
-		info = license.NewInfo(*name, *year)
-
+	switch strings.ToLower(*lic) {
+	case "mit":
 		// Set the license type
 		licType = license.MIT
+	case "bsd":
+		// Set the license type
+		licType = license.BSD
 	default:
 		fmt.Printf("\"%s\" is not a valid license type.\n", *lic)
 		os.Exit(-1)
 	} //switch
+
+	// Create the info
+	info := license.NewInfo(*name, *year)
 
 	// Create the file
 	file, err := os.Create("LICENSE")
