@@ -1,6 +1,9 @@
 package license
 
-import "testing"
+import (
+	"fmt"
+	"testing"
+)
 
 func TestNewInfo(t *testing.T) {
 	// Some values
@@ -19,3 +22,20 @@ func TestNewInfo(t *testing.T) {
 		t.Error("Expected year to be", year, "but was", info.Year)
 	} //if
 } //TestNewInfo
+
+func TestInfoReplace(t *testing.T) {
+	// Some values
+	name, year, lic := "Test", 1, "NAME-YEAR"
+
+	// Create the expected
+	expected := fmt.Sprintf("%s-%d", name, year)
+
+	// Create the Info
+	info := NewInfo(name, year)
+
+	// Check replace
+	if actual := info.replace(lic); actual != expected {
+		t.Errorf("Expected the license to be \"%s\" but was \"%s\"", expected,
+			actual)
+	} //if
+} //TestInfoReplace
