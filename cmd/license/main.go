@@ -33,30 +33,16 @@ func init() {
 
 func main() {
 	// Create the flag for the name
-	name := flag.String("name", defaultName, "The name of the copyright holder")
+	name := flag.String("holder", defaultName, "The name of the copyright holder")
 
 	// Create the flag for the year
 	year := flag.Int("year", defaultYear, "The year of the copyright")
 
 	// Create the flag for the license
-	lic := flag.String("license", defaultLicense, "The license")
+	lic := flag.String("name", defaultLicense, "The license")
 
 	// Parse the flags
 	flag.Parse()
-
-	var licType license.Type
-
-	switch strings.ToLower(*lic) {
-	case "mit":
-		// Set the license type
-		licType = license.MIT
-	case "bsd":
-		// Set the license type
-		licType = license.BSD
-	default:
-		fmt.Printf("\"%s\" is not a valid license type.\n", *lic)
-		os.Exit(-1)
-	} //switch
 
 	// Create the info
 	info := license.NewInfo(*name, *year)
@@ -74,5 +60,5 @@ func main() {
 	defer file.Close()
 
 	// Write the license
-	license.Write(licType, info, file)
+	license.Write(strings.ToLower(*lic), info, file)
 } //main
