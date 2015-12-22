@@ -32,6 +32,10 @@ func init() {
 } //init
 
 func main() {
+	// Create the flag to list the available licenses
+	list := flag.Bool("list", false,
+		"Lists the available licenses instead of writing a license file")
+
 	// Create the flag for the name
 	name := flag.String("holder", defaultName, "The name of the copyright holder")
 
@@ -43,6 +47,12 @@ func main() {
 
 	// Parse the flags
 	flag.Parse()
+
+	// Check the list flag
+	if *list {
+		fmt.Println("Available licenses:\n\tMIT\n\tBSD")
+		return
+	} //if
 
 	// Create the info
 	info := license.NewInfo(*name, *year)
