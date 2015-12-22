@@ -17,6 +17,8 @@ Usage
 Usage of license:
   -holder string
     	The name of the copyright holder (default "<user name>")
+  -list
+      	Lists the available licenses instead of writing a license file
   -name string
     	The license (default "MIT")
   -year int
